@@ -11,23 +11,55 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}`);
 })
 
-app.get('/api/v1/teams', (req, resp) => {
+app.get('/api/v1/teams', (request, response) => {
   database('teams').select()
     .then(teams => {
-      resp.status(200).json(teams)
+      response.status(200).json(teams)
     })
     .catch(error => {
-      resp.status(500).json({ error });
+      response.status(500).json({ error });
     })
 })
 
 
-app.get('/api/v1/players', (req, resp) => {
+app.get('/api/v1/players', (request, response) => {
   database('players').select()
     .then(players => {
-      resp.status(200).json(players)
+      response.status(200).json(players)
     })
     .catch(error => {
-      resp.status(500).json({ error })
+      response.status(500).json({ error })
+    })
+})
+
+app.get('/api/v1/teams/:id', (request, response) => {
+  database('teams').where('id', request.params.id).select()
+    .then(team => { 
+      if (team.length) {
+        response.status(200).json(team)
+      } else {
+        response.status(404).json({
+          error: `Could not find a team with id ${request.params.id}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(422).json({ error: error })
+    })
+})
+
+app.get('/api/v1/players/:id', (request, response) => {
+  database('players').where('id', request.params.id).select()
+    .then(player => {
+      if (player.length) {
+        response.status(200).json(player)
+      } else {
+        response.status(404).json({
+          error: `Could not find a player with id ${request.params.id}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(422).json({ error: error })
     })
 })
