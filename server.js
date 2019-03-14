@@ -89,7 +89,7 @@ app.post('/api/v1/players', (request, response) => {
     if (!player[requiredParameter]) {
       return response
         .status(422)
-        .send({ error: `Expected format: { player_name: <String>, position: <String>, new_team: <String>, contract_value: <String>}. You're missing a ${requiredParameter} property.` })
+        .send({ error: `Expected format: { player_name: <String>, position: <String>, new_team: <Integer>, contract_value: <Integer>}. You're missing a ${requiredParameter} property.` })
     }
   }
   database('players').insert(player, 'id')
@@ -101,3 +101,48 @@ app.post('/api/v1/players', (request, response) => {
     })
 })
 
+app.delete('/api/v1/players/:id', (request, response) => {
+  let found = false
+  database('players').select()
+    .then(players => {
+      players.forEach(player => {
+        if (player.id === parseInt(request.params.id)) {
+          found = true
+        }
+      })
+      if (!found) {
+        return response.status(404).json(`Player not found - delete unsuccessful`)
+      } else {
+        database('players').where('id', parseInt(request.params.id)).del()
+          .then(() => {
+            response.status(202).json(`Deleted player with id of ${request.params.id}`)
+          })
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
+app.delete('/api/v1/teams/:id', (request, response) => {
+  let found = false
+  database('teams').select()
+    .then(teams => {
+      teams.forEach(team => {
+        if (team.id === parseInt((request.params.id))) {
+          found = true
+        }
+      })
+      if (!found) {
+        return response.status(404).json(`Team not found - delete unsuccessful`)
+      } else {
+        database('teams').where('id', parseInt(request.params.id)).del()
+          .then(() => {
+            response.status(202).json(`Deleted team with id of ${request.params.id}`)
+          })
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
