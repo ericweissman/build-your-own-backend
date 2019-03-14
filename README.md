@@ -129,7 +129,7 @@ Request: ```/api/v1/attractions/21```
 | `player_name`      | `string` | Name of of the new player |
 | `position`      | `string`      |   Position of the new player |
 | `new_team`  | `integer`     |    ID of the team the new player belongs to |
-|'contract_value' | 'integer' |  Value of new deal for the player |
+|`contract_value` | `integer` |  Value of new deal for the player |
    
 
 **Example Response**
