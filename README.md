@@ -144,11 +144,11 @@ Request: ```/api/v1/attractions/21```
 **Required:**
 The id of the team or player to be deleted
 ### ```DELETE /api/v1/teams/:id```  
-### ```DELETE '/api/v1/players/:id```  
+### ```DELETE /api/v1/players/:id```  
 **Example Response**
 ```
 Deleted team with the id of 55
 ```
 ```
-Delete player with the id of 97
+Deleted player with the id of 97
 ```
