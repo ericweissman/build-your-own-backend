@@ -14,7 +14,7 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
 //set the porst based on whatever port is referenced in our config file base on the environment, default to 3000
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 //sets the title of the local database storage
 app.locals.title = 'NFL Free Agency 2019';
 
